@@ -44,6 +44,17 @@ class TestSolution extends \PHPUnit_Framework_TestCase
         static::assertEquals($expected, $this->solution->nestingWithValues($input));
     }
 
+    /**
+     * @dataProvider flattenDataProvider
+     *
+     * @param $input
+     * @param $expected
+     */
+    public function testFlatten($input, $expected)
+    {
+        static::assertEquals($expected, $this->solution->flatten($input));
+    }
+
     public function nestingWithValuesDataProvider()
     {
         return [
@@ -77,6 +88,44 @@ class TestSolution extends \PHPUnit_Framework_TestCase
                             'position' => 10,
                         ],
                     ],
+                ],
+            ],
+        ];
+    }
+
+    public function flattenDataProvider()
+    {
+        return [
+            [
+                [
+                    'parent' => [
+                        'child' => [
+                            'field' => 1,
+                            'field2' => 2,
+                        ],
+                    ],
+                    'parent2' => [
+                        'child' => [
+                            'name' => 'test',
+                        ],
+                        'child2' => [
+                            'name' => 'test',
+                            'position' => 10,
+                        ],
+                    ],
+                    'parent3' => [
+                        'child3' => [
+                            'position' => 10,
+                        ],
+                    ],
+                ],
+                [
+                    'parent.child.field' => 1,
+                    'parent.child.field2' => 2,
+                    'parent2.child.name' => 'test',
+                    'parent2.child2.name' => 'test',
+                    'parent2.child2.position' => 10,
+                    'parent3.child3.position' => 10,
                 ],
             ],
         ];

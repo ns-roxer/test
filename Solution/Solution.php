@@ -16,6 +16,20 @@ class Solution
 
     public function flatten(array $ar)
     {
+        $result = [];
+
+        $collapse = function ($path, array $ar, &$result) use (&$collapse) {
+            foreach ($ar as $key => $value) {
+                if (is_array($value)) {
+                    $collapse($path.$key.".", $value, $result);
+                    continue;
+                }
+                $result[$path.$key] = $value;
+            }
+        };
+        $collapse("", $ar, $result);
+
+        return $result;
     }
 
     public function nestingWithValues(array $ar)

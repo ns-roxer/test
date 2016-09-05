@@ -13,4 +13,37 @@ class Solution
             }
         );
     }
+
+    public function flatten(array $ar)
+    {
+    }
+
+    public function nestingWithValues(array $ar)
+    {
+        $nested = [];
+        foreach ($ar as $key => $value) {
+            $depthLevels = $this->getDepthLevels($key);
+
+            $maxDepth = count($depthLevels);
+            $tmp = &$nested;
+
+            foreach ($depthLevels as $depthLevel => $levelName) {
+                if (!isset($tmp[$levelName])) {
+                    if ($depthLevel === $maxDepth - 1) {
+                        $tmp[$levelName] = $value;
+                    } else {
+                        $tmp[$levelName] = [];
+                    }
+                }
+                $tmp = &$tmp[$levelName];
+            }
+        }
+
+        return $nested;
+    }
+
+    protected function getDepthLevels($stringWithKeys)
+    {
+        return array_filter(explode('.', $stringWithKeys));
+    }
 }

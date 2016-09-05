@@ -2,15 +2,25 @@
 
 namespace Solution\Tests;
 
-require __DIR__.'/../solution_of_test1.php';
+use Solution\Solution;
 
-use function Solution\nesting;
+require __DIR__.'/../Solution.php';
 
 /**
  * {@inheritDoc}
  */
-class TestTest extends \PHPUnit_Framework_TestCase
+class TestSolution extends \PHPUnit_Framework_TestCase
 {
+    /** @var  Solution */
+    protected $solution;
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function setUp()
+    {
+        $this->solution = new Solution();
+    }
 
     public function nestingDataProvider()
     {
@@ -38,7 +48,7 @@ class TestTest extends \PHPUnit_Framework_TestCase
      */
     public function testNesting($input, $expected)
     {
-        static::assertEquals($expected, nesting($input));
+        static::assertEquals($expected, $this->solution->nesting($input));
     }
 
 }
